@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="styles.css">
+
+</head>
+<body>
+	<div id='details' class="divContainer">
+		<button width="5%" class="divElement divButton"><img src="back.png" height="10px"></button>
+		<p width="90%" class="divElement divData" id="name" >Receiver</p>
+		<button width="5%" class="divElement divButton">options</button>
+	</div>
+
+    <div id="messageBox" style="margin:5;"></div>
+    <form action="">
+      <input id="message" autocomplete="off" /><button>Send</button>
+    </form>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+  var socket = io('/');
+  socket.on('chatReceive',function(msg){
+  	$('#messageBox').append('<div style="text-align:right;height:30px; vertical-align:middle;">'+msg+'</div>');
+  });
+  $('form').submit(function(){
+    socket.emit('chatSend', $('#message').val());
+    console.log($('#message').val());
+    $('#messageBox').append('<div style="text-align:left;height:30px;vertical-align:middle;">'+$('#message').val()+'</div>');
+    $('#message').val('');
+    return false;
+  });
+</script>
+</body>
+</html>
